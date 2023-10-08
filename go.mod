@@ -1,4 +1,4 @@
-module github.com/loves/userRpc
+module  github.com/Jing-Pattern/user
 
 go 1.20
 
