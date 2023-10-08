@@ -1,4 +1,4 @@
-module  github.com/Jing-Pattern/user
+module  github.com/Jing-Pattern/user/rpc
 
 go 1.20
 
