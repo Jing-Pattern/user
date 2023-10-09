@@ -29,6 +29,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(in *pb.LoginRequest) (*pb.LoginResponse, error) {
 	// todo: add your logic here and delete this line
 	u := query.Use(l.svcCtx.Db).LoveUserInfo
+
 	code, _ := strconv.Atoi(in.Username)
 	user, err := u.WithContext(l.ctx).Where(u.ID.Eq(int32(code))).First()
 	if err != nil {
