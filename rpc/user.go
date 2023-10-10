@@ -6,7 +6,7 @@ import (
 	"github.com/Jing-Pattern/user/rpc/internal/config"
 	"github.com/Jing-Pattern/user/rpc/internal/server"
 	"github.com/Jing-Pattern/user/rpc/internal/svc"
-	"github.com/Jing-Pattern/user/rpc/pb/pb"
+	"github.com/Jing-Pattern/user/rpc/pb"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -14,6 +14,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+//go:generate goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
 func main() {
@@ -24,8 +25,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		pb.RegisterAuthServiceServer(grpcServer, server.NewAuthServiceServer(ctx))
-
+		pb.RegisterUserServiceServer(grpcServer, server.NewUserServiceServer(ctx))
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}

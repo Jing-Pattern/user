@@ -6,32 +6,27 @@ package user;
 option go_package="./pb";
 // 生成 golang 代码后的包名
 message UserReq {
-    int64 id = 1 ;
+    string id = 1 ;
 }
-message UserResponse {
-  string id = 1;
+message UserInfo {
+  string openId = 1;
+  string nickname=2;
+  int32 gender=3;
+  int32 tel=4;
+  string avatarUrl=5;
+  int32 isSingle=6;
+  int32 isDel=7;
 }
-message Auth {
-  string access_token =1;
-  int32  expires_in =2;
-}
-message LoginResponse {
-    bool success = 1;
-    string message = 2;
-     Auth  auth=3;
-}
-
-message RegisterRequest {
-    string username = 1;
-    string password = 2;
+message UserResp {
+  string message=1;
 }
 
-message RegisterResponse {
-    bool success = 1;
-    string message = 2;
-}
 
-service AuthService {
-    rpc Login (LoginRequest) returns (LoginResponse);
-    rpc Register (RegisterRequest) returns (RegisterResponse);
+service UserService {
+  rpc GetUserInfo(UserReq) returns (UserInfo);
+  rpc CreateUser(UserReq)returns (UserResp);
+  rpc UpdateUser(UserInfo) returns(UserResp);
+  rpc DeleteUser(UserReq)returns(UserResp);
+//    rpc Login (LoginRequest) returns (LoginResponse);
+//    rpc Register (RegisterRequest) returns (RegisterResponse);
 }

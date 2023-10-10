@@ -8,7 +8,7 @@ import (
 
 	"github.com/Jing-Pattern/user/rpc/internal/logic"
 	"github.com/Jing-Pattern/user/rpc/internal/svc"
-	"github.com/Jing-Pattern/user/rpc/pb/pb"
+	"github.com/Jing-Pattern/user/rpc/pb"
 )
 
 type AuthServiceServer struct {
