@@ -27,7 +27,7 @@ func (s *UserServiceServer) GetUserInfo(ctx context.Context, in *pb.UserReq) (*p
 	return l.GetUserInfo(in)
 }
 
-func (s *UserServiceServer) CreateUser(ctx context.Context, in *pb.UserReq) (*pb.UserResp, error) {
+func (s *UserServiceServer) CreateUser(ctx context.Context, in *pb.CreateUserReq) (*pb.UserResp, error) {
 	l := logic.NewCreateUserLogic(ctx, s.svcCtx)
 	return l.CreateUser(in)
 }

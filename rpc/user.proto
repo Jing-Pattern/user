@@ -29,8 +29,8 @@ message ExistUser {
 }
 
 service UserService {
-  rpc GetUserInfo(CreateUserReq) returns (UserInfo);
-  rpc CreateUser(UserReq)returns (UserResp);
+  rpc GetUserInfo(UserReq) returns (UserInfo);
+  rpc CreateUser(CreateUserReq)returns (UserResp);
   rpc UpdateUser(UserInfo) returns(UserResp);
   rpc DeleteUser(UserReq)returns(UserResp);
   rpc FindUser(UserReq)returns(ExistUser);
