@@ -25,7 +25,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(in *pb.UserReq) (*pb.UserInfo, error) {
-	// todo: add your logic here and delete this line
+
 	query := query.Use(l.svcCtx.Db).LoveUserInfo
 	user := new(pb.UserInfo)
 	model, err := query.WithContext(context.Background()).Where(query.OpenID.Eq(in.Id)).First()

@@ -20,13 +20,14 @@ message UserInfo {
 message UserResp {
   string message=1;
 }
-
+message ExistUser {
+  bool  isExist=1;
+}
 
 service UserService {
   rpc GetUserInfo(UserReq) returns (UserInfo);
   rpc CreateUser(UserReq)returns (UserResp);
   rpc UpdateUser(UserInfo) returns(UserResp);
   rpc DeleteUser(UserReq)returns(UserResp);
-//    rpc Login (LoginRequest) returns (LoginResponse);
-//    rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc FindUser(UserReq)returns(ExistUser);
 }

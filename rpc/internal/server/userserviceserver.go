@@ -41,3 +41,8 @@ func (s *UserServiceServer) DeleteUser(ctx context.Context, in *pb.UserReq) (*pb
 	l := logic.NewDeleteUserLogic(ctx, s.svcCtx)
 	return l.DeleteUser(in)
 }
+
+func (s *UserServiceServer) FindUser(ctx context.Context, in *pb.UserReq) (*pb.ExistUser, error) {
+	l := logic.NewFindUserLogic(ctx, s.svcCtx)
+	return l.FindUser(in)
+}

@@ -13,15 +13,17 @@ import (
 )
 
 type (
-	UserInfo = pb.UserInfo
-	UserReq  = pb.UserReq
-	UserResp = pb.UserResp
+	ExistUser = pb.ExistUser
+	UserInfo  = pb.UserInfo
+	UserReq   = pb.UserReq
+	UserResp  = pb.UserResp
 
 	UserService interface {
 		GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfo, error)
 		CreateUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserResp, error)
 		UpdateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*UserResp, error)
 		DeleteUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserResp, error)
+		FindUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ExistUser, error)
 	}
 
 	defaultUserService struct {
@@ -53,4 +55,9 @@ func (m *defaultUserService) UpdateUser(ctx context.Context, in *UserInfo, opts 
 func (m *defaultUserService) DeleteUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserResp, error) {
 	client := pb.NewUserServiceClient(m.cli.Conn())
 	return client.DeleteUser(ctx, in, opts...)
+}
+
+func (m *defaultUserService) FindUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ExistUser, error) {
+	client := pb.NewUserServiceClient(m.cli.Conn())
+	return client.FindUser(ctx, in, opts...)
 }
