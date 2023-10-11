@@ -34,6 +34,6 @@ func (l *FindUserLogic) FindUser(in *pb.UserReq) (*pb.ExistUser, error) {
 			IsExist: false,
 		}, err
 	}
-	fmt.Println("user1 sucs")
+
 	return &pb.ExistUser{IsExist: true}, nil
 }
