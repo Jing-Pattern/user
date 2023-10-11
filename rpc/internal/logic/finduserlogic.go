@@ -30,9 +30,9 @@ func (l *FindUserLogic) FindUser(in *pb.UserReq) (*pb.ExistUser, error) {
 	_, err := query.WithContext(context.Background()).Where(query.OpenID.Eq(in.Id)).First()
 	if err != nil {
 		fmt.Println("user1 err", err)
-		return &pb.ExistUser{
-			IsExist: false,
-		}, err
+
+		res := &pb.ExistUser{IsExist: false}
+		return res, err
 	}
 
 	return &pb.ExistUser{IsExist: true}, nil
