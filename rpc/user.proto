@@ -8,6 +8,10 @@ option go_package="./pb";
 message UserReq {
     string id = 1 ;
 }
+message CreateUserReq {
+  string openId=1;
+  int32  tel=2;
+}
 message UserInfo {
   string openId = 1;
   string nickname=2;
