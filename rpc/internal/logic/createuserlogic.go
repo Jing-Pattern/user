@@ -2,7 +2,8 @@ package logic
 
 import (
 	"context"
-
+	"github.com/Jing-Pattern/user/rpc/internal/dao/model"
+	"github.com/Jing-Pattern/user/rpc/internal/dao/query"
 	"github.com/Jing-Pattern/user/rpc/internal/svc"
 	"github.com/Jing-Pattern/user/rpc/pb"
 
@@ -25,6 +26,12 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateUserLogic) CreateUser(in *pb.UserReq) (*pb.UserResp, error) {
 	// todo: add your logic here and delete this line
+	query := query.Use(l.svcCtx.Db).LoveUserInfo
 
-	return &pb.UserResp{}, nil
+	user := model.LoveUserInfo{Name: "Modi", OpenID: in.Id, Nickname: "请设置昵称"}
+	err := query.WithContext(l.ctx).Create(&user)
+	if err != nil {
+		return &pb.UserResp{Message: "用户创建失败"}, err
+	}
+	return &pb.UserResp{Message: "用户创建成功"}, nil
 }

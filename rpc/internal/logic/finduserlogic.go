@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"github.com/Jing-Pattern/user/rpc/internal/dao/query"
 
 	"github.com/Jing-Pattern/user/rpc/internal/svc"
@@ -28,9 +29,11 @@ func (l *FindUserLogic) FindUser(in *pb.UserReq) (*pb.ExistUser, error) {
 	query := query.Use(l.svcCtx.Db).LoveUserInfo
 	_, err := query.WithContext(context.Background()).Where(query.OpenID.Eq(in.Id)).First()
 	if err != nil {
+		fmt.Println("user1 err", err)
 		return &pb.ExistUser{
 			IsExist: false,
 		}, err
 	}
+	fmt.Println("user1 sucs")
 	return &pb.ExistUser{IsExist: true}, nil
 }
