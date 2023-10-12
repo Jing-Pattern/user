@@ -10,7 +10,7 @@ CREATE TABLE love_user_info (
                                    `gender` INT COMMENT '用户性别（0表示未知，1表示男性，2表示女性）',
                                    `tel` int(12) COMMENT '绑定手机号',
                                    `avatar_url` VARCHAR(255)  COMMENT '用户头像url',
-                                   `is_single` int(11)  COMMENT '是否单身',
+                                   `is_single` int(11)  COMMENT '是否单身 0为未确定  1为单身 2为非单身' ,
                                    `is_del` int(11)  COMMENT '注销 0为未注销，1已注销',
                                    PRIMARY KEY (`id`) USING BTREE,
                                    INDEX idx_tel (`open_id`) USING BTREE
