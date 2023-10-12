@@ -24,11 +24,11 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 	}
 }
 
-func (l *CreateUserLogic) CreateUser(in *pb.UserReq) (*pb.UserResp, error) {
+func (l *CreateUserLogic) CreateUser(in *pb.CreateUserReq) (*pb.UserResp, error) {
 	// todo: add your logic here and delete this line
 	query := query.Use(l.svcCtx.Db).LoveUserInfo
 
-	user := model.LoveUserInfo{Name: "Modi", OpenID: in.Id, Nickname: "请设置昵称"}
+	user := model.LoveUserInfo{Name: "Modi", OpenID: in.OpenId, Nickname: "请设置昵称"}
 	err := query.WithContext(l.ctx).Create(&user)
 	if err != nil {
 		return &pb.UserResp{Message: "用户创建失败"}, err
