@@ -6,7 +6,7 @@ COPY . .
 
 RUN go env -w GOPROXY=https://proxy.golang.com.cn,direct
 
-RUN go build -o app .
+RUN  go build  -o app .
 
 # 暴露Gateway服务的端口（假设Gateway服务监听在3000端口上）
 EXPOSE 8080
