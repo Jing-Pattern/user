@@ -7,7 +7,7 @@ RUN go env -w GOPROXY=https://proxy.golang.com.cn,direct &&\
     cd ./project/rpc &&\
     go build -o /app/app .
 
-COPY ./rpc/etc /app/etc
+COPY ./etc /app/etc
 
 # 设置工作目录
 WORKDIR /app
