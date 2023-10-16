@@ -4,7 +4,7 @@ LABEL authors="jingze"
 COPY . ./project
 
 RUN go env -w GOPROXY=https://proxy.golang.com.cn,direct &&\
-    cd ./project/rpc &&\
+    cd ./project &&\
     go build -o /app/app .
 
 COPY ./etc /app/etc
