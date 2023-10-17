@@ -15,6 +15,7 @@ import (
 type (
 	CreateUserReq = pb.CreateUserReq
 	ExistUser     = pb.ExistUser
+	UserByNameReq = pb.UserByNameReq
 	UserInfo      = pb.UserInfo
 	UserReq       = pb.UserReq
 	UserResp      = pb.UserResp
@@ -25,6 +26,7 @@ type (
 		UpdateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*UserResp, error)
 		DeleteUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserResp, error)
 		FindUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ExistUser, error)
+		FindUserByName(ctx context.Context, in *UserByNameReq, opts ...grpc.CallOption) (*UserInfo, error)
 	}
 
 	defaultUserService struct {
@@ -61,4 +63,9 @@ func (m *defaultUserService) DeleteUser(ctx context.Context, in *UserReq, opts .
 func (m *defaultUserService) FindUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ExistUser, error) {
 	client := pb.NewUserServiceClient(m.cli.Conn())
 	return client.FindUser(ctx, in, opts...)
+}
+
+func (m *defaultUserService) FindUserByName(ctx context.Context, in *UserByNameReq, opts ...grpc.CallOption) (*UserInfo, error) {
+	client := pb.NewUserServiceClient(m.cli.Conn())
+	return client.FindUserByName(ctx, in, opts...)
 }

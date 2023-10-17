@@ -8,6 +8,9 @@ option go_package="./pb";
 message UserReq {
     string id = 1 ;
 }
+message UserByNameReq {
+  string name = 1 ;
+}
 message CreateUserReq {
   string openId=1;
   int32  tel=2;
@@ -34,4 +37,5 @@ service UserService {
   rpc UpdateUser(UserInfo) returns(UserResp);
   rpc DeleteUser(UserReq)returns(UserResp);
   rpc FindUser(UserReq)returns(ExistUser);
+  rpc FindUserByName(UserByNameReq)returns(UserInfo);
 }

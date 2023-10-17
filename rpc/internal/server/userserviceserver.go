@@ -46,3 +46,8 @@ func (s *UserServiceServer) FindUser(ctx context.Context, in *pb.UserReq) (*pb.E
 	l := logic.NewFindUserLogic(ctx, s.svcCtx)
 	return l.FindUser(in)
 }
+
+func (s *UserServiceServer) FindUserByName(ctx context.Context, in *pb.UserByNameReq) (*pb.UserInfo, error) {
+	l := logic.NewFindUserByNameLogic(ctx, s.svcCtx)
+	return l.FindUserByName(in)
+}

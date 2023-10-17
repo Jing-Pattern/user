@@ -23,11 +23,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_GetUserInfo_FullMethodName = "/user.UserService/GetUserInfo"
-	UserService_CreateUser_FullMethodName  = "/user.UserService/CreateUser"
-	UserService_UpdateUser_FullMethodName  = "/user.UserService/UpdateUser"
-	UserService_DeleteUser_FullMethodName  = "/user.UserService/DeleteUser"
-	UserService_FindUser_FullMethodName    = "/user.UserService/FindUser"
+	UserService_GetUserInfo_FullMethodName    = "/user.UserService/GetUserInfo"
+	UserService_CreateUser_FullMethodName     = "/user.UserService/CreateUser"
+	UserService_UpdateUser_FullMethodName     = "/user.UserService/UpdateUser"
+	UserService_DeleteUser_FullMethodName     = "/user.UserService/DeleteUser"
+	UserService_FindUser_FullMethodName       = "/user.UserService/FindUser"
+	UserService_FindUserByName_FullMethodName = "/user.UserService/FindUserByName"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -39,6 +40,7 @@ type UserServiceClient interface {
 	UpdateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*UserResp, error)
 	DeleteUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserResp, error)
 	FindUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ExistUser, error)
+	FindUserByName(ctx context.Context, in *UserByNameReq, opts ...grpc.CallOption) (*UserInfo, error)
 }
 
 type userServiceClient struct {
@@ -94,6 +96,15 @@ func (c *userServiceClient) FindUser(ctx context.Context, in *UserReq, opts ...g
 	return out, nil
 }
 
+func (c *userServiceClient) FindUserByName(ctx context.Context, in *UserByNameReq, opts ...grpc.CallOption) (*UserInfo, error) {
+	out := new(UserInfo)
+	err := c.cc.Invoke(ctx, UserService_FindUserByName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -103,6 +114,7 @@ type UserServiceServer interface {
 	UpdateUser(context.Context, *UserInfo) (*UserResp, error)
 	DeleteUser(context.Context, *UserReq) (*UserResp, error)
 	FindUser(context.Context, *UserReq) (*ExistUser, error)
+	FindUserByName(context.Context, *UserByNameReq) (*UserInfo, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -124,6 +136,9 @@ func (UnimplementedUserServiceServer) DeleteUser(context.Context, *UserReq) (*Us
 }
 func (UnimplementedUserServiceServer) FindUser(context.Context, *UserReq) (*ExistUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUser not implemented")
+}
+func (UnimplementedUserServiceServer) FindUserByName(context.Context, *UserByNameReq) (*UserInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserByName not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -228,6 +243,24 @@ func _UserService_FindUser_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_FindUserByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserByNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FindUserByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FindUserByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FindUserByName(ctx, req.(*UserByNameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -254,6 +287,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindUser",
 			Handler:    _UserService_FindUser_Handler,
+		},
+		{
+			MethodName: "FindUserByName",
+			Handler:    _UserService_FindUserByName_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
