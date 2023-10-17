@@ -5,4 +5,4 @@ ListenOn: 0.0.0.0:8080
 #  - 127.0.0.1:2379
 #  Key: user.rpc
 Mysql:
-  DbUrl: "root:toor@tcp(mysql)/main?charset=utf8mb4&parseTime=true&loc=Local"
+  DbUrl: "dbuser:dbuser123@tcp(mysql)/main?charset=utf8mb4&parseTime=true&loc=Local"
