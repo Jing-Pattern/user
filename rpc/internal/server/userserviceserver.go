@@ -51,3 +51,8 @@ func (s *UserServiceServer) FindUserByName(ctx context.Context, in *pb.UserByNam
 	l := logic.NewFindUserByNameLogic(ctx, s.svcCtx)
 	return l.FindUserByName(in)
 }
+
+func (s *UserServiceServer) BindLover(ctx context.Context, in *pb.LoverId) (*pb.UserResp, error) {
+	l := logic.NewBindLoverLogic(ctx, s.svcCtx)
+	return l.BindLover(in)
+}

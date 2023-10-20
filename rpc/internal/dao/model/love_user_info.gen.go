@@ -17,6 +17,8 @@ type LoveUserInfo struct {
 	Gender     int32  `gorm:"column:gender;comment:用户性别（0表示未知，1表示男性，2表示女性）" json:"gender"`        // 用户性别（0表示未知，1表示男性，2表示女性）
 	Tel        int32  `gorm:"column:tel;comment:绑定手机号" json:"tel"`                                // 绑定手机号
 	AvatarURL  string `gorm:"column:avatar_url;comment:用户头像url" json:"avatar_url"`                // 用户头像url
+	IsSingle   int32  `gorm:"column:is_single;comment:是否单身" json:"is_single"`                     // 是否单身
+	IsDel      int32  `gorm:"column:is_del;comment:注销 0为未注销，1已注销" json:"is_del"`                  // 注销 0为未注销，1已注销
 }
 
 // TableName LoveUserInfo's table name

@@ -29,6 +29,7 @@ const (
 	UserService_DeleteUser_FullMethodName     = "/user.UserService/DeleteUser"
 	UserService_FindUser_FullMethodName       = "/user.UserService/FindUser"
 	UserService_FindUserByName_FullMethodName = "/user.UserService/FindUserByName"
+	UserService_BindLover_FullMethodName      = "/user.UserService/BindLover"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -41,6 +42,7 @@ type UserServiceClient interface {
 	DeleteUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserResp, error)
 	FindUser(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ExistUser, error)
 	FindUserByName(ctx context.Context, in *UserByNameReq, opts ...grpc.CallOption) (*UserInfo, error)
+	BindLover(ctx context.Context, in *LoverId, opts ...grpc.CallOption) (*UserResp, error)
 }
 
 type userServiceClient struct {
@@ -105,6 +107,15 @@ func (c *userServiceClient) FindUserByName(ctx context.Context, in *UserByNameRe
 	return out, nil
 }
 
+func (c *userServiceClient) BindLover(ctx context.Context, in *LoverId, opts ...grpc.CallOption) (*UserResp, error) {
+	out := new(UserResp)
+	err := c.cc.Invoke(ctx, UserService_BindLover_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -115,6 +126,7 @@ type UserServiceServer interface {
 	DeleteUser(context.Context, *UserReq) (*UserResp, error)
 	FindUser(context.Context, *UserReq) (*ExistUser, error)
 	FindUserByName(context.Context, *UserByNameReq) (*UserInfo, error)
+	BindLover(context.Context, *LoverId) (*UserResp, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -139,6 +151,9 @@ func (UnimplementedUserServiceServer) FindUser(context.Context, *UserReq) (*Exis
 }
 func (UnimplementedUserServiceServer) FindUserByName(context.Context, *UserByNameReq) (*UserInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserByName not implemented")
+}
+func (UnimplementedUserServiceServer) BindLover(context.Context, *LoverId) (*UserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindLover not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -261,6 +276,24 @@ func _UserService_FindUserByName_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_BindLover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoverId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).BindLover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_BindLover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).BindLover(ctx, req.(*LoverId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -291,6 +324,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindUserByName",
 			Handler:    _UserService_FindUserByName_Handler,
+		},
+		{
+			MethodName: "BindLover",
+			Handler:    _UserService_BindLover_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

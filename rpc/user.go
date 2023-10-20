@@ -17,6 +17,8 @@ import (
 //go:generate goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
+//go:generate gentool -dsn 'root:toor@tcp(localhost)/main?charset=utf8mb4&parseTime=true&loc=Local' -tables love_user_info,love_lover_relation
+
 func main() {
 	flag.Parse()
 	// ces

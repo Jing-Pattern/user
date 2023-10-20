@@ -30,6 +30,10 @@ message UserResp {
 message ExistUser {
   bool  isExist=1;
 }
+message LoverId {
+  string userId=1;
+  string loverId=2;
+}
 
 service UserService {
   rpc GetUserInfo(UserReq) returns (UserInfo);
@@ -38,4 +42,6 @@ service UserService {
   rpc DeleteUser(UserReq)returns(UserResp);
   rpc FindUser(UserReq)returns(ExistUser);
   rpc FindUserByName(UserByNameReq)returns(UserInfo);
+  rpc BindLover(LoverId)returns(UserResp);
+
 }

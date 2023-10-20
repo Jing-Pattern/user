@@ -19,8 +19,8 @@ import (
 	"github.com/Jing-Pattern/user/rpc/internal/dao/model"
 )
 
-func newLoveUserInfo(db *gorm.DB, opts ...gen.DOOption) loveUserInfo {
-	_loveUserInfo := loveUserInfo{}
+func newLoveUserInfo(db *gorm.DB, opts ...gen.DOOption) LoveUserInfo {
+	_loveUserInfo := LoveUserInfo{}
 
 	_loveUserInfo.loveUserInfoDo.UseDB(db, opts...)
 	_loveUserInfo.loveUserInfoDo.UseModel(&model.LoveUserInfo{})
@@ -36,13 +36,15 @@ func newLoveUserInfo(db *gorm.DB, opts ...gen.DOOption) loveUserInfo {
 	_loveUserInfo.Gender = field.NewInt32(tableName, "gender")
 	_loveUserInfo.Tel = field.NewInt32(tableName, "tel")
 	_loveUserInfo.AvatarURL = field.NewString(tableName, "avatar_url")
+	_loveUserInfo.IsSingle = field.NewInt32(tableName, "is_single")
+	_loveUserInfo.IsDel = field.NewInt32(tableName, "is_del")
 
 	_loveUserInfo.fillFieldMap()
 
 	return _loveUserInfo
 }
 
-type loveUserInfo struct {
+type LoveUserInfo struct {
 	loveUserInfoDo loveUserInfoDo
 
 	ALL        field.Asterisk
@@ -55,21 +57,23 @@ type loveUserInfo struct {
 	Gender     field.Int32  // 用户性别（0表示未知，1表示男性，2表示女性）
 	Tel        field.Int32  // 绑定手机号
 	AvatarURL  field.String // 用户头像url
+	IsSingle   field.Int32  // 是否单身
+	IsDel      field.Int32  // 注销 0为未注销，1已注销
 
 	fieldMap map[string]field.Expr
 }
 
-func (l loveUserInfo) Table(newTableName string) *loveUserInfo {
+func (l LoveUserInfo) Table(newTableName string) *LoveUserInfo {
 	l.loveUserInfoDo.UseTable(newTableName)
 	return l.updateTableName(newTableName)
 }
 
-func (l loveUserInfo) As(alias string) *loveUserInfo {
+func (l LoveUserInfo) As(alias string) *LoveUserInfo {
 	l.loveUserInfoDo.DO = *(l.loveUserInfoDo.As(alias).(*gen.DO))
 	return l.updateTableName(alias)
 }
 
-func (l *loveUserInfo) updateTableName(table string) *loveUserInfo {
+func (l *LoveUserInfo) updateTableName(table string) *LoveUserInfo {
 	l.ALL = field.NewAsterisk(table)
 	l.ID = field.NewInt32(table, "id")
 	l.OpenID = field.NewString(table, "open_id")
@@ -80,25 +84,27 @@ func (l *loveUserInfo) updateTableName(table string) *loveUserInfo {
 	l.Gender = field.NewInt32(table, "gender")
 	l.Tel = field.NewInt32(table, "tel")
 	l.AvatarURL = field.NewString(table, "avatar_url")
+	l.IsSingle = field.NewInt32(table, "is_single")
+	l.IsDel = field.NewInt32(table, "is_del")
 
 	l.fillFieldMap()
 
 	return l
 }
 
-func (l *loveUserInfo) WithContext(ctx context.Context) *loveUserInfoDo {
+func (l *LoveUserInfo) WithContext(ctx context.Context) *loveUserInfoDo {
 	return l.loveUserInfoDo.WithContext(ctx)
 }
 
-func (l loveUserInfo) TableName() string { return l.loveUserInfoDo.TableName() }
+func (l LoveUserInfo) TableName() string { return l.loveUserInfoDo.TableName() }
 
-func (l loveUserInfo) Alias() string { return l.loveUserInfoDo.Alias() }
+func (l LoveUserInfo) Alias() string { return l.loveUserInfoDo.Alias() }
 
-func (l loveUserInfo) Columns(cols ...field.Expr) gen.Columns {
+func (l LoveUserInfo) Columns(cols ...field.Expr) gen.Columns {
 	return l.loveUserInfoDo.Columns(cols...)
 }
 
-func (l *loveUserInfo) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (l *LoveUserInfo) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := l.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -107,8 +113,8 @@ func (l *loveUserInfo) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 	return _oe, ok
 }
 
-func (l *loveUserInfo) fillFieldMap() {
-	l.fieldMap = make(map[string]field.Expr, 9)
+func (l *LoveUserInfo) fillFieldMap() {
+	l.fieldMap = make(map[string]field.Expr, 11)
 	l.fieldMap["id"] = l.ID
 	l.fieldMap["open_id"] = l.OpenID
 	l.fieldMap["session_key"] = l.SessionKey
@@ -118,14 +124,16 @@ func (l *loveUserInfo) fillFieldMap() {
 	l.fieldMap["gender"] = l.Gender
 	l.fieldMap["tel"] = l.Tel
 	l.fieldMap["avatar_url"] = l.AvatarURL
+	l.fieldMap["is_single"] = l.IsSingle
+	l.fieldMap["is_del"] = l.IsDel
 }
 
-func (l loveUserInfo) clone(db *gorm.DB) loveUserInfo {
+func (l LoveUserInfo) clone(db *gorm.DB) LoveUserInfo {
 	l.loveUserInfoDo.ReplaceConnPool(db.Statement.ConnPool)
 	return l
 }
 
-func (l loveUserInfo) replaceDB(db *gorm.DB) loveUserInfo {
+func (l LoveUserInfo) replaceDB(db *gorm.DB) LoveUserInfo {
 	l.loveUserInfoDo.ReplaceDB(db)
 	return l
 }
